@@ -12,7 +12,7 @@ makedepends=('extra-cmake-modules' 'kdoctools')
 provides=('milou-git')
 conflicts=('milou-git')
 source=("http://download.kde.org/stable/plasma/$pkgver/${pkgname}-$pkgver.tar.xz")
-sha256sum=('fab3556fafc66b332c87bfa552b9a109bdbb1d27a07a587d6383e6b23c0fa5fd')
+sha256sums=('fab3556fafc66b332c87bfa552b9a109bdbb1d27a07a587d6383e6b23c0fa5fd')
 
 build() {
   mkdir -p build

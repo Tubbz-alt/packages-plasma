@@ -8,12 +8,12 @@ pkgdesc="A framework for searching and managing metadata"
 arch=('i686' 'x86_64')
 url='https://projects.kde.org/projects/kde/kdelibs/baloo'
 license=('LGPL')
-depends=('xapian-core' 'kf5-akonadi' 'kf5-kfilemetadata' 'kidletime' 'kcmutils' 'krunner'
-         'kemoticons' 'kf5-kdepimlibs')
+depends=('xapian-core' 'kf5-kfilemetadata' 'kidletime' 'kcmutils' 'krunner'
+         'kemoticons') # 'kf5-akonadi' 'kf5-kdepimlibs' currently broken
 makedepends=('extra-cmake-modules' 'kdoctools')
 conflicts=('baloo')
 source=("http://download.kde.org/stable/plasma/$pkgver/baloo-$pkgver.tar.xz")
-sha256sum=('9488a948b20b50bf46cba432912bc9f0cf7660b25d2d37520a8aa4382a0365e5')
+sha256sums=('9488a948b20b50bf46cba432912bc9f0cf7660b25d2d37520a8aa4382a0365e5')
 
 build() {
   mkdir -p build
@@ -25,8 +25,8 @@ build() {
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DSYSCONF_INSTALL_DIR=/etc \
     -DPLUGIN_INSTALL_DIR=/usr/lib/qt5/plugins \
-    -DLIB_INSTALL_DIR=lib \
-    -DKDEPIM_SUPPORT_BUILD=TRUE
+    -DLIB_INSTALL_DIR=lib
+    #-DKDEPIM_SUPPORT_BUILD=TRUE
   make
 }
 

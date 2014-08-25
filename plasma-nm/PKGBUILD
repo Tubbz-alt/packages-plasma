@@ -1,0 +1,38 @@
+# Maintainer : Philip Müller <philm@manjaro.org>
+
+pkgname=plasma-nm
+pkgver=5.0.1
+pkgrel=1
+pkgdesc='Plasma applet written in QML for managing network connections'
+arch=('i686' 'x86_64')
+url='https://projects.kde.org/projects/playground/network/plasma-nm'
+license=('GPL2')
+depends=('plasma-workspace' 'libmm-qt5' 'libnm-qt5')
+makedepends=('extra-cmake-modules' 'openconnect')
+optdepends=('mobile-broadband-provider-info: Database of mobile broadband service providers' 'openconnect: Cisco AnyConnect VPN plugin')
+source=("http://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
+md5sums=('080b63166b448e428666e13512c57b55')
+
+build() {
+  cd ${srcdir}
+
+  mkdir build
+  
+  cd build 
+  cmake ../${pkgname}-${pkgver} \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_SKIP_RPATH=ON \
+    -DLIB_INSTALL_DIR=lib \
+    -DSYSCONF_INSTALL_DIR=/etc \
+    -DQML_INSTALL_DIR=/usr/lib/qt5/qml \
+    -DPLUGIN_INSTALL_DIR=/usr/lib/qt5/plugins \
+    -DBUILD_TESTING=OFF 
+  make 
+}
+
+package() {
+  cd ${srcdir}/build
+  
+  make DESTDIR=${pkgdir} install
+}
