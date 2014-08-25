@@ -1,0 +1,32 @@
+# Maintainer : Philip Müller <philm@manjaro.org>
+
+pkgname=khelpcenter
+pkgver=5.0.1
+pkgrel=1
+pkgdesc='Application to show KDE Applications documentation'
+arch=('i686' 'x86_64')
+url='https://projects.kde.org/projects/kde/workspace/khelpcenter'
+license=('LGPL')
+depends=('kcmutils' 'kdelibs4support' 'kemoticons' 'khtml' 'kinit' 'kitemmodels')
+makedepends=('extra-cmake-modules' 'kdoctools')
+source=("http://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
+sha256sums=('62b3856bbb1e1cd59036d47369840e61fa81e3fa2356f8db168db91ed062bb92')
+
+build() {
+  mkdir -p build
+  #sed -e "s/PO_FILES //" -i ${srcdir}/$pkgname-$pkgver/po/*/CMakeLists.txt
+  cd build
+  
+  cmake ../${pkgname}-$pkgver \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DLIB_INSTALL_DIR=lib \
+    -DBUILD_TESTING=OFF
+  make
+}
+
+package() {
+  cd build
+
+  make DESTDIR="${pkgdir}" install
+}
