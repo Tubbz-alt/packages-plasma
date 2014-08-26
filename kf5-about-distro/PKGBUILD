@@ -1,0 +1,35 @@
+# Maintainer : Philip Müller <philm@manjaro.org>
+
+pkgname=kf5-about-distro
+_pkgname=about-distro
+pkgver=0.0.1
+pkgrel=1
+pkgdesc="KCM displaying distribution and system information"
+arch=('i686' 'x86_64')
+url='https://projects.kde.org/about-distro'
+license=('GPL3')
+depends=('kconfigwidgets' 'solid')
+makedepends=('extra-cmake-modules' 'kdoctools' 'git')
+#source=("http://download.kde.org/stable/$pkgname/$pkgver/src/$pkgname-$pkgver.tar.xz"
+source=("git://anongit.kde.org/about-distro.git#branch=frameworks")
+md5sums=('SKIP')
+
+build() {
+  mkdir -p build
+  cd build
+  
+  cmake ../${_pkgname} \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DLIB_INSTALL_DIR=lib \
+    -DSYSCONF_INSTALL_DIR=/etc \
+    -DQML_INSTALL_DIR=/usr/lib/qt5/qml \
+    -DPLUGIN_INSTALL_DIR=/usr/lib/qt5/plugins \
+    -DBUILD_TESTING=OFF 
+  make
+}
+
+package() {
+  cd build
+  make DESTDIR="${pkgdir}" install
+}

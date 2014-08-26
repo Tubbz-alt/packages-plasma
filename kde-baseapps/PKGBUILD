@@ -1,0 +1,74 @@
+# Maintainer : Philip Müller <philm@manjaro.org>
+# Contributor: Antonio Rojas
+# Contributor: Andrea Scarpino <andrea@archlinux.org>
+
+pkgbase=kde-baseapps
+pkgname=(kf5-dolphin kf5-kdepasswd kf5-kdialog kf5-kfind kf5-libkonq)
+pkgver=5.0.1
+pkgrel=1
+_git=71ff942a5bf0bbceba34188ad542829df514f218
+pkgdesc="Collection of applications used for file and Internet browsing."
+arch=('i686' 'x86_64')
+url='https://projects.kde.org/projects/kde/applications/kde-baseapps'
+license=('LGPL')
+makedepends=('extra-cmake-modules' 'git' 'kdoctools' 'kdesu' 'kdelibs4support' 'kactivities-frameworks' 'kf5-baloo-widgets' 'knewstuff' 'kio-extras')
+source=('git://anongit.kde.org/kde-baseapps#branch=frameworks')
+md5sums=('SKIP')
+
+prepare() {
+  mkdir -p build
+  cd $srcdir/kde-baseapps
+  git checkout $_git
+}
+
+build() {
+  cd build
+  cmake ../kde-baseapps \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DLIB_INSTALL_DIR=lib \
+    -DQT_PLUGIN_INSTALL_DIR=lib/qt/plugins
+  make
+}
+
+package_kf5-dolphin() {
+	pkgdesc='File Manager'
+	depends=('kf5-baloo-widgets' 'kf5-libkonq' 'knewstuff' 'kio-extras')
+	conflicts=('kdebase-dolphin')
+	url="http://kde.org/applications/system/dolphin/"
+	cd $srcdir/build/dolphin
+	make DESTDIR=$pkgdir install
+}
+
+package_kf5-kdepasswd() {
+	pkgdesc='Change Password'
+	depends=('kf5-libkonq' 'kdesu')
+	conflicts=('kdebase-kdepasswd')
+	cd $srcdir/build/kdepasswd
+	make DESTDIR=$pkgdir install
+}
+
+package_kf5-kdialog() {
+	pkgdesc='A utility for displaying dialog boxes from shell scripts'
+	depends=('kdelibs4support')
+	conflicts=('kdebase-kdialog')
+	cd $srcdir/build/kdialog
+	make DESTDIR=$pkgdir install
+}
+
+package_kf5-kfind() {
+	pkgdesc='Find Files/Folders'
+	depends=('kf5-libkonq')
+	conflicts=('kdebase-kfind')
+	url="http://kde.org/applications/utilities/kfind/"
+	cd $srcdir/build/kfind
+	make DESTDIR=$pkgdir install
+}
+
+package_kf5-libkonq() {
+	pkgdesc='KDE libraries for the basic desktop applications'
+	depends=('kdelibs4support')
+        conflicts=('kdebase-lib')
+	cd $srcdir/build/lib
+	make DESTDIR=$pkgdir install
+}

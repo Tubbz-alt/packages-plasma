@@ -3,24 +3,26 @@
 pkgname=kf5-baloo
 _pkgname=baloo
 pkgver=5.0.1
-pkgrel=1
+pkgrel=2
 pkgdesc="A framework for searching and managing metadata"
 arch=('i686' 'x86_64')
 url='https://projects.kde.org/projects/kde/kdelibs/baloo'
 license=('LGPL')
 depends=('xapian-core' 'kf5-kfilemetadata' 'kidletime' 'kcmutils' 'krunner'
-         'kemoticons') # 'kf5-akonadi' 'kf5-kdepimlibs' currently broken
-makedepends=('extra-cmake-modules' 'kdoctools')
+         'kemoticons' 'kdelibs4support') # 'kf5-akonadi' 'kf5-kdepimlibs' currently broken
+makedepends=('extra-cmake-modules' 'kdoctools' 'git')
 conflicts=('baloo')
-source=("http://download.kde.org/stable/plasma/$pkgver/baloo-$pkgver.tar.xz")
-sha256sums=('9488a948b20b50bf46cba432912bc9f0cf7660b25d2d37520a8aa4382a0365e5')
+#source=("http://download.kde.org/stable/plasma/$pkgver/baloo-$pkgver.tar.xz")
+#sha256sums=('9488a948b20b50bf46cba432912bc9f0cf7660b25d2d37520a8aa4382a0365e5')
+source=('git://anongit.kde.org/baloo.git')
+md5sums=('SKIP')
 
 build() {
   mkdir -p build
-  #sed -i -e 's/KF5 ${BALOO_VERSION} REQUIRED COMPONENTS FileMetaData/KF5 REQUIRED COMPONENTS FileMetaData/' ${srcdir}/$_pkgname-$pkgver/CMakeLists.txt
+  sed -i -e "s|5.0.95|5.0.0|g" ${srcdir}/$_pkgname/CMakeLists.txt
   cd build
   
-  cmake ../${_pkgname}-$pkgver \
+  cmake ../${_pkgname} \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DSYSCONF_INSTALL_DIR=/etc \

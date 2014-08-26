@@ -1,0 +1,35 @@
+# Maintainer : Philip Müller <philm@manjaro.org>
+
+pkgname=kf5-yakuake
+pkgver=2.9.9
+pkgrel=1
+pkgdesc="A is a drop-down terminal emulator based on KDE Konsole technology."
+arch=('i686' 'x86_64')
+url="http://yakuake.kde.org"
+license=('GPL')
+conflicts=('yakuake')
+provides=('yakuake')
+depends=('knotifyconfig' 'kparts' 'knewstuff' 'kf5-konsole')
+makedepends=('cmake' 'git' 'extra-cmake-modules')
+source=('git://anongit.kde.org/yakuake.git#branch=frameworks')
+sha1sums=('SKIP')
+_gitname="yakuake"
+
+pkgver() {
+  cd "${_gitname}"
+  git describe --long | sed -e 's|-|.|g' | sed -e 's|v||g'
+}
+
+build() {
+  cd "${_gitname}"
+  cmake . \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DLIB_INSTALL_DIR=lib
+  make
+}
+
+package() {
+  cd "${_gitname}"
+  make DESTDIR="${pkgdir}" install
+}

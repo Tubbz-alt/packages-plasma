@@ -1,0 +1,37 @@
+# Maintainer : Philip Müller <philm@manjaro.org>
+
+pkgname=kate
+#pkgver=${_kdever}
+pkgver=4.98.0
+pkgrel=1
+pkgdesc='Advanced editor component which is used in numerous KDE applications requiring a text editing component'
+arch=('i686' 'x86_64')
+url='https://projects.kde.org/projects/kde/applications/kate'
+license=('LGPL')
+depends=('kdelibs4support' 'kconfig' 'kguiaddons' 'ki18n' 'kinit' 'kjobwidgets' 'kitemmodels'
+         'kio' 'kparts' 'ktexteditor' 'kwindowsystem' 'kxmlgui')
+makedepends=('extra-cmake-modules' 'kdoctools' 'git')
+conflicts=('kdesdk-kate')
+#source=("http://download.kde.org/unstable/frameworks/${pkgver}/${pkgname}-${pkgver}.tar.xz")
+#md5sums=(`grep ${pkgname}-$_kdever.tar.xz ../kf5.md5 | cut -d" " -f1`)
+source=("git://anongit.kde.org/kate")
+md5sums=('SKIP')
+
+build() {
+  mkdir -p build
+  cd build
+  
+  cmake ../${pkgname} \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DSYSCONF_INSTALL_DIR=/etc \
+    -DPLUGIN_INSTALL_DIR=/usr/lib/qt5/plugins \
+    -DLIB_INSTALL_DIR=lib
+  make
+}
+
+package() {
+  cd build
+  
+  make DESTDIR="${pkgdir}" install
+}

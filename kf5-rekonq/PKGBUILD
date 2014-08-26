@@ -1,0 +1,38 @@
+# Maintainer : Philip Müller <philm@manjaro.org>
+
+pkgname=kf5-rekonq
+pkgver=3.0.0
+pkgrel=1
+pkgdesc='A WebKit based web browser for KDE'
+arch=('i686' 'x86_64')
+url='http://rekonq.kde.org/'
+license=('GPL')
+depends=('kcmutils' 'kdewebkit' 'kinit')
+makedepends=('extra-cmake-modules' 'git')
+conflicts=('rekonq')
+provides=('rekonq')
+source=("git://anongit.kde.org/rekonq.git#branch=frameworks")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd rekonq
+  git describe --long | sed -e 's|-|.|g' | sed -e 's|v||g'
+}
+
+prepare() {
+  mkdir -p build
+}
+
+build() { 
+  cd build
+  cmake ../rekonq \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DLIB_INSTALL_DIR=lib
+  make
+}
+
+package() {
+  cd build
+  make DESTDIR="$pkgdir" install
+}
