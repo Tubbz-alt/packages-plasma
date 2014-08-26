@@ -1,0 +1,42 @@
+pkgname=sddm-qt5
+pkgver=0.9.0
+pkgrel=1
+pkgdesc="QML based X11 display manager"
+arch=('i686' 'x86_64')
+backup=('etc/sddm.conf' "usr/share/sddm/scripts/Xsetup")
+url="http://github.com/sddm/sddm"
+license=('GPL')
+depends=("qt5-declarative" "upower")
+makedepends=("git" "cmake" "qt5-tools" "python-docutils")
+conflicts=sddm
+install=sddm.install
+source=(git://github.com/sddm/sddm.git 'sddm.conf')
+#source=(https://github.com/sddm/sddm/archive/v$pkgver.tar.gz 'sddm.conf')
+sha256sums=(SKIP
+            9a307e8fe6275180e7fb46a18c8b74358016fa7af31a35c6c618b05b9ce171f5)
+
+pkgver() {
+	cd "$srcdir/sddm"
+	printf "$pkgver+git`date +%Y%m%d`.%s" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+	cd "$srcdir"
+	mkdir -p build
+
+	cd build
+	cmake ../sddm \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBEXECDIR=/usr/lib/sddm \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DBUILD_MAN_PAGES=ON \
+		-DUSE_QT5=true
+	make
+}
+
+package() {
+	cd "$srcdir/build"
+	make DESTDIR="$pkgdir" install
+	install -m644 $srcdir/sddm.conf $pkgdir/etc/sddm.conf
+	install -d -g 136 -o 136 ${pkgdir}/var/lib/sddm
+}

@@ -21,7 +21,8 @@ if echo "${host_mirror}" | grep -q 'file://'; then
 	host_mirror_path=$(echo "${host_mirror}" | sed -E 's#file://(/.*)/\$repo/\$arch#\1#g')
 fi
 
-${BRANCH}-${ARCH}-build -c -r ${CHROOT}
+#${BRANCH}-${ARCH}-build -c -r ${CHROOT}
+#${BRANCH}-${ARCH}-build -r ${CHROOT}
 
 echo "==> Fixing branch in chroot"
 echo "Server = ${host_mirror}" > ${CHROOT}/${BRANCH}-${ARCH}/root/etc/pacman.d/mirrorlist

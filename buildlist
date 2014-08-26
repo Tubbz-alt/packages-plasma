@@ -1,7 +1,6 @@
 systemsettings
 libksysguard
 ksysguard
-#kf5-akonadi
 kdecoration
 kwin
 kde-cli-tools
@@ -10,8 +9,6 @@ kio-extras
 kf5-kfilemetadata
 prison-qt5
 qjson-qt5
-#kf5-libkgapi
-#kf5-kdepimlibs
 kf5-baloo
 milou
 libkscreen2
