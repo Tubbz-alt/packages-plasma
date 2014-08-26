@@ -1,0 +1,39 @@
+# Maintainer : Philip Müller <philm@manjaro.org>
+
+pkgname=kf5-libksane
+_pkgname=libksane
+pkgver=5.0.1
+pkgrel=1
+pkgdesc="An image scanning library"
+arch=('i686' 'x86_64')
+url='http://www.kde.org'
+license=('GPL' 'LGPL' 'FDL')
+depends=('kwallet' 'kxmlgui' 'sane')
+makedepends=('extra-cmake-modules' 'git')
+groups=("kf5graphics" "kf5-uninstall")
+options=('docs')
+conflicts=('libksane')
+source=("git://anongit.kde.org/libksane#branch=frameworks")
+md5sums=('SKIP')
+
+
+build() {
+    cd ${srcdir}/${_pkgname}
+	
+    cmake ../${_pkgname} \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DLIB_INSTALL_DIR=lib \
+    -DSYSCONF_INSTALL_DIR=/etc \
+    -DQML_INSTALL_DIR=/usr/lib/qt5/qml \
+    -DPLUGIN_INSTALL_DIR=/usr/lib/qt5/plugins \
+    -DBUILD_TESTING=OFF 
+    make
+}
+
+package() {
+    cd ${srcdir}/${_pkgname}
+	
+    make DESTDIR=${pkgdir} install
+
+}

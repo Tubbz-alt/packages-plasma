@@ -1,3 +1,5 @@
+# Maintainer : Philip Müller <philm@manjaro.org>
+
 pkgname=sddm-qt5
 pkgver=0.9.0
 pkgrel=1
@@ -25,7 +27,7 @@ build() {
 	mkdir -p build
 
 	cd build
-	cmake ../sddm \
+	cmake ../sddm-$pkgver \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DCMAKE_INSTALL_LIBEXECDIR=/usr/lib/sddm \
 		-DCMAKE_BUILD_TYPE=Release \

@@ -1,0 +1,32 @@
+# Maintainer : Philip Müller <philm@manjaro.org>
+
+pkgname=kf5-skanlite
+pkgver=1.1.1
+pkgrel=1
+pkgdesc="Image Scanning Application for KDE"
+arch=('i686' 'x86_64')
+url='http://www.kde.org'
+license=('LGPL')
+depends=('kio' 'kf5-libksane' 'sane')
+makedepends=('pkgconfig' 'extra-cmake-modules' 'git' 'kdoctools')
+conflicts=('skanlite')
+groups=('graphics')
+source=("git://anongit.kde.org/skanlite#branch=frameworks")
+md5sums=('SKIP')
+
+build() {
+  cd ${srcdir}
+  
+  mkdir build
+  cd build
+  cmake ../skanlite \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr
+  make 
+}
+
+package() {
+  cd ${srcdir}/build
+  
+  make DESTDIR=${pkgdir} install
+}
