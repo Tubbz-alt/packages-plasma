@@ -3,16 +3,16 @@
 pkgname=kf5-kfilemetadata
 _pkgname=kfilemetadata
 pkgver=5.0.1
-pkgrel=1
+pkgrel=2
 pkgdesc="A library for extracting file metadata"
 arch=('i686' 'x86_64')
 url='https://projects.kde.org/projects/kde/kdelibs/kfilemetadata'
 license=('LGPL')
 depends=('ebook-tools' 'karchive' 'exiv2' 'kservice' 'poppler-qt5' 'taglib' 'ffmpeg')
 makedepends=('extra-cmake-modules')
-conflicts=('kfilemetadata' 'kfilemetadata5')
-provides=('kfilemetadata' 'kfilemetadata5')
-replaces=('kfilemetadata' 'kfilemetadata5')
+conflicts=('kfilemetadata5')
+provides=('kfilemetadata5')
+replaces=('kfilemetadata5')
 source=("http://download.kde.org/stable/plasma/$pkgver/${_pkgname}-$pkgver.tar.xz")
 sha256sums=('5d050460eb2da897d529cb9965b440e41ff9420af2a65b429204af8ac98ab717')
 
