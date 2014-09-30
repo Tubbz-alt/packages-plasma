@@ -1,34 +1,35 @@
-# Maintainer : Philip Müller <philm@manjaro.org>
+# Contributor: Antonio Rojas
 
 pkgname=kwrited
-pkgver=5.0.1
+pkgver=5.0.2
 pkgrel=1
-pkgdesc='Watch for messages from local users sent with write or wall'
+pkgdesc='Kwrited'
 arch=('i686' 'x86_64')
 url='https://projects.kde.org/projects/kde/workspace/kwrited'
 license=('LGPL')
-depends=('kdelibs4support' 'kemoticons' 'kinit' 'kitemmodels' 'kpty')
+depends=('kpty' 'kdelibs4support')
 makedepends=('extra-cmake-modules' 'kdoctools')
-conflicts=('kde-workspace')
 source=("http://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
-sha256sums=('5182bd14ac3758a9497e3a66600fbb9aafce53a551da19f9f9c717c77f51a0cb')
+md5sums=('c9059d42e46c2db543506f9b50953e49')
+
+prepare() {
+  mkdir -p build
+}
 
 build() {
-  mkdir -p build
   cd build
-  
-  cmake ../${pkgname}-${pkgver} \
+  cmake ../$pkgname-$pkgver \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
+    -DBUILD_AS_EXECUTABLE=OFF \
+    -DQT_PLUGIN_INSTALL_DIR=lib/qt/plugins \
     -DLIB_INSTALL_DIR=lib \
-    -DSYSCONF_INSTALL_DIR=/etc \
     -DBUILD_TESTING=OFF
   make
 }
 
 package() {
   cd build
-
   make DESTDIR="${pkgdir}" install
 }
 

@@ -1,35 +1,32 @@
-# Maintainer : Philip Müller <philm@manjaro.org>
+# Contributor: Antonio Rojas
 
-pkgname="plasma-workspace-wallpapers"
-pkgver=5.0.1
+pkgname=plasma-workspace-wallpapers
+pkgver=5.0.2
 pkgrel=1
-pkgdesc="KDE Wallpapers"
-url="http://www.kde.org"
-license="GPL"
+pkgdesc='Additional wallpapers for the Plasma Workspace'
 arch=('any')
-depends=('kservice')
+url='https://projects.kde.org/projects/kde/workspace/plasma-workspace'
+license=('LGPL')
+depends=()
 makedepends=('extra-cmake-modules')
 source=("http://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
-md5sums=('1c10806a8f812681e3e6bfcc4a1ed941')
+md5sums=('d2bf62aa2112db426666d085002f7f05')
+
+prepare() {
+  mkdir -p build
+}
 
 build() {
-  mkdir -p build
   cd build
-  
-  cmake ../${pkgname}-$pkgver \
+  cmake ../$pkgname-$pkgver \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
-    -DLIB_INSTALL_DIR=lib \
-    -DSYSCONF_INSTALL_DIR=/etc \
-    -DQML_INSTALL_DIR=/usr/lib/qt5/qml \
-    -DPLUGIN_INSTALL_DIR=/usr/lib/qt5/plugins \
     -DBUILD_TESTING=OFF
   make
 }
 
 package() {
   cd build
-
   make DESTDIR="${pkgdir}" install
 }
 

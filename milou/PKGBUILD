@@ -1,33 +1,36 @@
-# Maintainer : Philip Müller <philm@manjaro.org>
+# Contributor: Antonio Rojas
 
 pkgname=milou
-pkgver=5.0.1
+pkgver=5.0.2
 pkgrel=1
-pkgdesc="Dedicated search application built on top of Baloo"
+pkgdesc="A dedicated search application built on top of Baloo"
 arch=('i686' 'x86_64')
-url='https://projects.kde.org/projects/kdereview/milou'
-license=('GPL')
-depends=('kf5-baloo' 'qt5-webkit')
+url='https://projects.kde.org/projects/kde/workspace/milou/'
+license=('LGPL')
+depends=('krunner')
+provides=('milou-frameworks')
+conflicts=('milou-frameworks')
+replaces=('milou-frameworks')
 makedepends=('extra-cmake-modules' 'kdoctools')
-provides=('milou-git')
-conflicts=('milou-git')
-source=("http://download.kde.org/stable/plasma/$pkgver/${pkgname}-$pkgver.tar.xz")
-sha256sums=('fab3556fafc66b332c87bfa552b9a109bdbb1d27a07a587d6383e6b23c0fa5fd')
+source=("http://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
+md5sums=('2574439c58b5dfb484ad2327f01a2bcf')
+
+prepare() {
+  mkdir -p build
+}
 
 build() {
-  mkdir -p build
   cd build
-
-  cmake ../${pkgname}-$pkgver \
-      -DCMAKE_BUILD_TYPE=Release \
-      -DCMAKE_INSTALL_PREFIX=/usr \
-      -DQML_INSTALL_DIR=/usr/lib/qt5/qml \
-      -DLIB_INSTALL_DIR=lib
+  cmake ../$pkgname-$pkgver \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DLIB_INSTALL_DIR=lib \
+    -DQML_INSTALL_DIR=lib/qt/qml \
+    -DLOCALE_INSTALL_DIR=share/locale/kf5
   make
 }
 
 package() {
   cd build
-
   make DESTDIR="${pkgdir}" install
 }

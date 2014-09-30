@@ -1,34 +1,34 @@
-# Maintainer : Philip Müller <philm@manjaro.org>
+# Contributor: Antonio Rojas
 
-pkgname=libkscreen2
-_pkgname=libkscreen
-pkgver=5.0.92
-_pkgver=5.0.1
-pkgrel=1
-pkgdesc="A library for extracting file metadata"
+pkgname=libkscreen-frameworks
+pkgver=5.0.93
+plasmaver=5.0.2
+pkgrel=2
+pkgdesc='KDE screen management software'
 arch=('i686' 'x86_64')
-url='https://projects.kde.org/projects/kde/kdelibs/kfilemetadata'
+url='https://projects.kde.org/projects/extragear/libs/libkscreen'
 license=('LGPL')
-depends=('qt5-x11extras')
-makedepends=('extra-cmake-modules' 'xorg-xrandr')
-source=("http://download.kde.org/stable/plasma/$_pkgver/${_pkgname}-$pkgver.tar.xz")
-md5sums=('a98fba8e13a9264fc5792957ad563fe8')
+depends=('qt5-x11extras' 'libxrandr')
+makedepends=('extra-cmake-modules')
+source=("http://download.kde.org/stable/plasma/$plasmaver/libkscreen-$pkgver.tar.xz")
+md5sums=('3b504e4be29b8a9739be91f19c44c9e7')
+
+prepare() {
+  mkdir -p build
+}
 
 build() {
-  mkdir -p build
   cd build
-  
-  cmake ../${_pkgname}-${pkgver} \
+  cmake ../libkscreen-$pkgver \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
-    -DECM_MKSPECS_INSTALL_DIR=/usr/lib/qt5/mkspecs/modules \
-    -DPLUGIN_INSTALL_DIR=/usr/lib/qt5/plugins \
-    -DLIB_INSTALL_DIR=lib
+    -DLIB_INSTALL_DIR=lib \
+    -DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
+    -DBUILD_TESTING=OFF
   make
 }
 
 package() {
   cd build
-
   make DESTDIR="${pkgdir}" install
 }

@@ -1,38 +1,38 @@
-# Maintainer : Philip Müller <philm@manjaro.org>
+# Contributor: Antonio Rojas
 
 pkgname=kio-extras
-pkgver=5.0.1
+pkgver=5.0.2
 pkgrel=1
-pkgdesc='Additional components to increase the functionality of KIO'
+pkgdesc="Additional components to increase the functionality of KIO"
 arch=('i686' 'x86_64')
 url='https://projects.kde.org/projects/kde/workspace/kio-extras'
 license=('LGPL')
-depends=('exiv2' 'kdelibs4support' 'kdnssd' 'kemoticons' 'khtml' 'kinit' 'kitemmodels' 'libssh'
-         'openexr' 'samba')
-makedepends=('extra-cmake-modules' 'kdoctools' 'openslp')
-conflicts=('kfileaudiopreview')
-provides=('kfileaudiopreview')
-replaces=('kfileaudiopreview')
+depends=('kdelibs4support' 'khtml' 'kdnssd' 'libssh' 'smbclient' 'exiv2' 'openexr')
+makedepends=('extra-cmake-modules' 'openslp' 'kdoctools')
 source=("http://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
-sha256sums=('52d59e127fcc1f38e11692798ac48ecb7935f8479aeaf452f6fc77e47a50146a')
+md5sums=('cb02e13fb8a09d55a406f26eb67e32cd')
+
+prepare() {
+  mkdir -p build
+}
 
 build() {
-  mkdir -p build
-  #sed -e "s/PO_FILES //" -i ${srcdir}/$pkgname-$pkgver/po/*/CMakeLists.txt
   cd build
-  
   cmake ../$pkgname-$pkgver \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DLIB_INSTALL_DIR=lib \
-    -DSYSCONF_INSTALL_DIR=/etc \
-    -DPLUGIN_INSTALL_DIR=/usr/lib/qt5/plugins \
+    -DQT_PLUGIN_INSTALL_DIR=lib/qt/plugins \
+    -DLOCALE_INSTALL_DIR=share/locale/kf5 \
     -DBUILD_TESTING=OFF
   make
 }
 
 package() {
   cd build
-
   make DESTDIR="${pkgdir}" install
+
+# conflicts with kdebase-runtime
+  rm "$pkgdir"/usr/lib/libmolletnetwork.so
+  mv "$pkgdir"/usr/share/config.kcfg/jpegcreatorsettings{,5}.kcfg
 }

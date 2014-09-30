@@ -1,47 +1,41 @@
-# Maintainer : Philip Müller <philm@manjaro.org>
+# Contributor: Antonio Rojas
+# Contributor: Alexey D. <lq07829icatm at rambler.ru>
 
 pkgname=plasma-workspace
-pkgver=5.0.1
+pkgver=5.0.2
 pkgrel=1
-pkgdesc='Provides the interface and basic tools for the KDE Plasma Workspace'
+pkgdesc='KDE Plasma Workspace'
 arch=('i686' 'x86_64')
 url='https://projects.kde.org/projects/kde/workspace/plasma-workspace'
 license=('LGPL')
-depends=('frameworkintegration' 'kcmutils' 'knotifyconfig' 'krunner' 'kdesu' 'knewstuff' 'khtml'
-         'libdbusmenu-qt5' 'glu' 'kjsembed' 'libxkbfile' 'libxcursor' 'lm_sensors' 'libraw1394'
-         'libusb-compat' 'pciutils' 'libbsd' 'qt5-webkit' 'attica-qt5' 'kemoticons' 'libxrandr' 
-         'kded' 'kwin' 'libksysguard' 'ktexteditor' 'kde-cli-tools' 'khelpcenter' 'kio-extras'
-         'milou' 'libkscreen2' 'breeze' 'gpsd' 'libqalculate' 'qt5-tools' 'oxygen-icons' 
-         'prison-qt5') # 'kf5-akonadi'  'kf5-kdepimlibs' currently broken
-makedepends=('extra-cmake-modules' 'kdoctools' 'boost')
-groups=('plasma')
-source=("http://download.kde.org/stable/plasma/${pkgver}/${pkgname}-${pkgver}.tar.xz"
-        '10-kf5')
-sha256sums=('4f7827caa9251ee7662e4099e273ae795c0c16ece4c6e017ce5627be99f72bba'
-            '12c7e7c51e2a55b280504ce8f436d52dcd7a8811722912349ea8e62ab2b1011f')
+depends=('qt5-tools' 'kded' 'kwin' 'libksysguard' 'kjsembed' 'knotifyconfig' 'ktexteditor' 'kde-cli-tools' 'kio-extras' 
+'milou' 'baloo-frameworks' 'libkscreen-frameworks' 'breeze' 'gpsd' 'libqalculate') # 'prison-qt5' 'khelpcenter'
+makedepends=('extra-cmake-modules' 'kdoctools')
+optdepends=('plasma-workspace-wallpapers: additional wallpapers')
+conflicts=('kdebase-workspace')
+source=("http://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
+md5sums=('6455e308abf8755d58235df0d64285f7')
+
+prepare() {
+  mkdir -p build
+}
 
 build() {
-  mkdir -p build
-  #sed -i 's|find_package(KdepimLibs 4.70.10 QUIET CONFIG)|find_package(KdepimLibs)|' ${srcdir}/$pkgname/CMakeLists.txt
-  #sed -e "s/PO_FILES //" -i ${srcdir}/$pkgname-$pkgver/po/*/CMakeLists.txt
   cd build
-  
-  cmake ../${pkgname}-${pkgver} \
-    -DCMAKE_BUILD_TYPE=Release \
+  cmake ../$pkgname-$pkgver \
     -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=Release \
     -DLIB_INSTALL_DIR=lib \
+    -DQML_INSTALL_DIR=lib/qt/qml \
     -DSYSCONF_INSTALL_DIR=/etc \
-    -DQML_INSTALL_DIR=/usr/lib/qt5/qml \
-    -DPLUGIN_INSTALL_DIR=/usr/lib/qt5/plugins \
-    -DBUILD_TESTING=OFF 
+    -DLOCALE_INSTALL_DIR=share/locale/kf5 \
+    -DKDE_INSTALL_USE_QT_SYS_PATHS=ON
   make
 }
 
 package() {
   cd build
   make DESTDIR="${pkgdir}" install
-  
-  sed 's|qtpaths|qtpaths-qt5|' -i "$pkgdir/usr/bin/startkde"
-  
-  install -Dm755 "${srcdir}/10-kf5" "${pkgdir}/etc/X11/xinit/xinitrc.d/10-kf5"
+
+  sed 's:qtpaths:qtpaths-qt5:' -i "$pkgdir"/usr/bin/startkde
 }

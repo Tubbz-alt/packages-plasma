@@ -1,19 +1,19 @@
 # Maintainer: Antonio Rojas 
 # Contributor: Andrea Scarpino <andrea@archlinux.org>
-# Contributor: Timothée Ravier <tim@siosm.fr>
+# Contributor: TimothÃ©e Ravier <tim@siosm.fr>
 
-pkgname=libnm-qt5
-pkgver=5.0.92
-_plasmaver=5.0.1
-pkgrel=1
-pkgdesc='Qt-only wrapper for NetworkManager DBus API'
+pkgname=libmm-qt5
+pkgver=5.0.93
+_plasmaver=5.0.2
+pkgrel=2
+pkgdesc='Qt-only wrapper for ModemManager DBus API'
 arch=('i686' 'x86_64')
 url='https://projects.kde.org/projects/extragear/libs/libnm-qt'
 license=('LGPL')
-depends=('networkmanager' 'qt5-base')
+depends=('modemmanager' 'qt5-base')
 makedepends=('extra-cmake-modules')
-source=("http://download.kde.org/stable/plasma/$_plasmaver/libnm-qt-$pkgver.tar.xz")
-md5sums=('45ccd45c9481424aa2876fd662e85249')
+source=("http://download.kde.org/stable/plasma/$_plasmaver/libmm-qt-$pkgver.tar.xz")
+md5sums=('be1dc4ba05313dd043e8436ee7628811')
 
 prepare() {
   mkdir -p build
@@ -21,11 +21,11 @@ prepare() {
 
 build() {
   cd build
-  cmake ../libnm-qt-$pkgver \
+  cmake ../libmm-qt-$pkgver \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DLIB_INSTALL_DIR=lib \
-    -DECM_MKSPECS_INSTALL_DIR=/usr/share/qt/mkspecs/modules
+    -DKDE_INSTALL_USE_QT_SYS_PATHS=ON
   make
 }
 

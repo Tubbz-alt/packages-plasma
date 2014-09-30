@@ -1,33 +1,37 @@
-# Maintainer : Philip Müller <philm@manjaro.org>
+# Contributor: Antonio Rojas
 
 pkgname=libksysguard
-pkgver=5.0.1
+pkgver=5.0.2
 pkgrel=1
 pkgdesc='Libksysguard'
 arch=('i686' 'x86_64')
 url='https://projects.kde.org/projects/kde/workspace/libksysguard'
 license=('LGPL')
-depends=('libxres' 'kdelibs4support' 'kemoticons' 'plasma-framework')
+depends=('libxres' 'kdelibs4support' 'plasma-framework')
 makedepends=('extra-cmake-modules' 'kdoctools')
+conflicts=('kdebase-workspace')
 source=("http://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
-sha256sums=('a9310053daebf26faa22d47bbe7b0736dfff206ac20220c4d34037607627db4f')
+md5sums=('73ce6d1a9c9ed0d77a580514ed696251')
+
+prepare() {
+  mkdir -p build
+}
 
 build() {
-  mkdir -p build
-  #sed -e "s/PO_FILES //" -i ${srcdir}/$pkgname-$pkgver/po/*/CMakeLists.txt
   cd build
-  
-  cmake ../${pkgname}-${pkgver} \
+  cmake ../$pkgname-$pkgver \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DLIB_INSTALL_DIR=lib \
-    -DBUILD_TESTING=OFF
+    -DSYSCONF_INSTALL_DIR=/etc \
+    -DLOCALE_INSTALL_DIR=share/locale/kf5 \
+    -DKDE_INSTALL_USE_QT_SYS_PATHS=ON
   make
 }
 
 package() {
   cd build
-
   make DESTDIR="${pkgdir}" install
 }
+
 
