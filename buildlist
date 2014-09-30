@@ -1,12 +1,9 @@
 systemsettings
 libksysguard
 ksysguard
-kdecoration
-kwin
 kde-cli-tools
 khelpcenter
 kio-extras
-kf5-kfilemetadata
 prison-qt5
 qjson-qt5
 kf5-baloo
@@ -15,7 +12,6 @@ libkscreen2
 breeze
 plasma-workspace
 powerdevil
-oxygen
 khotkeys
 kmenuedit
 plasma-desktop
