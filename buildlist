@@ -1,3 +1,5 @@
+baloo-frameworks
+kinfocenter
 systemsettings
 libksysguard
 ksysguard
@@ -6,7 +8,6 @@ khelpcenter
 kio-extras
 prison-qt5
 qjson-qt5
-kf5-baloo
 milou
 libkscreen2
 breeze
