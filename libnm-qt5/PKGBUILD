@@ -2,18 +2,18 @@
 # Contributor: Andrea Scarpino <andrea@archlinux.org>
 # Contributor: TimothÃ©e Ravier <tim@siosm.fr>
 
-pkgname=libmm-qt5
+pkgname=libnm-qt5
 pkgver=5.0.93
 _plasmaver=5.0.2
 pkgrel=2
-pkgdesc='Qt-only wrapper for ModemManager DBus API'
+pkgdesc='Qt-only wrapper for NetworkManager DBus API'
 arch=('i686' 'x86_64')
 url='https://projects.kde.org/projects/extragear/libs/libnm-qt'
 license=('LGPL')
-depends=('modemmanager' 'qt5-base')
+depends=('networkmanager' 'qt5-base')
 makedepends=('extra-cmake-modules')
-source=("http://download.kde.org/stable/plasma/$_plasmaver/libmm-qt-$pkgver.tar.xz")
-md5sums=('be1dc4ba05313dd043e8436ee7628811')
+source=("http://download.kde.org/stable/plasma/$_plasmaver/libnm-qt-$pkgver.tar.xz")
+md5sums=('0079a9adc811ffbaacb9731b9e3646e4')
 
 prepare() {
   mkdir -p build
@@ -21,7 +21,7 @@ prepare() {
 
 build() {
   cd build
-  cmake ../libmm-qt-$pkgver \
+  cmake ../libnm-qt-$pkgver \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DLIB_INSTALL_DIR=lib \
