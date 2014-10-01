@@ -88,29 +88,37 @@ chroot_init(){
 	    -a "${arch}" \
 	    "${workdir}/root" \
 	    "${base_packages[@]}" || abort
-
-	msg "Created chroot for [${branch}] (${arch}) $(stat_done)"
     else
 	sudo setarch ${arch} mkmanjaroroot \
-	    -C "${pacman_conf}" \
-	    -M "${makepkg_conf}" \
-	    -b "${branch}" \
-	    -a "${arch}" \
+	 -b "${branch}" -u \
 	    "${workdir}/root" || abort
     fi
 }
 
-chroot_pkg(){
+get_user(){
     local user=$(ls ${workdir} | cut -d' ' -f1 | grep -v root | grep -v lock)
-    if ${update_first};then
-	sudo mkmanjaroroot -u -b ${branch} ${workdir}/${user}
+    echo $user
+}
+
+chroot_pkg(){
+    if ${update_first}; then
+	sudo mkmanjaroroot -b ${branch} -u ${workdir}/$(get_user) || abort
     fi
     for pkg in $(cat ${profiledir}/${profile}); do
 	cd $pkg
-	sudo makechrootpkg ${namcap_arg} -b ${branch} -r ${workdir} -- ${nodeps_arg} || break
-	if [[ $pkg == 'eudev' ]];then
-	    local blacklist=(libsystemd)
-	    sudo pacman -Rdd ${blacklist[@]} -r ${workdir}/${user} --noconfirm
+	sudo makechrootpkg "${makechrootpkg_args[@]}" -b ${branch} -r ${workdir} -- "${makepkg_args[@]}" || break
+	local user=$(get_user)
+	if [[ $pkg == 'eudev' ]]; then
+	    local blacklist=('libsystemd')
+	    sudo pacman -Rdd "${blacklist[@]}" -r ${workdir}/$(get_user) --noconfirm
+	    local temp
+	    # check if PKGDEST from makepkg.conf is not empty
+	    if [[ -z $PKGDEST ]];then
+		temp=$pkg
+	    else
+		temp=$pkgdir/$pkg
+	    fi
+	    sudo pacman -U $temp*${ARCH}*pkg*z -r ${workdir}/$(get_user) --noconfirm
 	fi
 	cd ..
     done
@@ -140,10 +148,7 @@ cp_pkg(){
 }
 
 cp_pkgs(){
-    if ! [[ -d ${pkgdir}/${arch} ]];then
-	mkdir -pv ${pkgdir}/${arch}
-    fi
-    pkgdir=${pkgdir}/${arch}
+    msg "Copying packages ..."
     eval "case $1 in
 	$profiles)
 	    cp_profile_pkgs $1
@@ -152,6 +157,7 @@ cp_pkgs(){
 	    cp_pkg $1
 	;;
     esac"
+    msg "Finished copying"
 }
 
 sign_pkgs(){
@@ -161,7 +167,9 @@ sign_pkgs(){
 }
 
 git_clean(){
+    msg "Cleaning ${rundir} ..."
     git clean -dfx
+    msg "Finished cleaning"
 }
 
 get_profiles(){
@@ -170,6 +178,13 @@ get_profiles(){
 	prof=${prof:-}${prof:+|}$p
     done
     echo $prof
+}
+
+mk_pkgdir(){
+	pkgdir=${rundir}/packages/${arch}
+	if ! [[ -d ${pkgdir} ]];then
+	    mkdir -pv ${pkgdir}
+	fi
 }
 
 run(){
@@ -212,36 +227,25 @@ if [[ -t 2 ]]; then
 fi
 readonly ALL_OFF BOLD BLUE GREEN RED YELLOW
 
-pacman_conf_arch='default'
 arch=$(uname -m)
 branch="unstable"
-base_packages=(base-devel)
 
-if [ "$arch" == 'multilib' ]; then
-	pacman_conf_arch='multilib'
-	arch='x86_64'
-	branch="${branch}-multilib"
-	base_packages+=(multilib-devel)
-fi
+pacman_conf_arch='default'
 
 chroots=/srv/manjarobuild
 profile=all # dynamic profiles as defined in profiledir(must not be a dir name in tree to work)
+rundir=$(pwd)
+base_packages=(base-devel)
 
 clean_first=false
+clean_build=false
 sign=false
 update_first=false
 namcap=false
-namcap_arg=
-clean_build=false
 nodeps=false
-nodeps_arg=
 
-rundir=$(pwd)
-profiledir=${rundir}/profiles
-profiles=$(get_profiles)
-pkgdir=${rundir}/packages
-pacman_conf=/usr/share/devtools/pacman-${pacman_conf_arch}.conf
-makepkg_conf=/usr/share/devtools/makepkg-${arch}.conf
+makepkg_args=()
+makechrootpkg_args=()
 
 usage() {
     echo "Usage: $0 [options]"
@@ -250,18 +254,18 @@ usage() {
     echo '    -b <branch>          Set branch'
     echo '    -p <profile>         Set profile or pkg'
     echo '    -r <dir>             Create chroots in this directory'
-    echo '    -c                   Recreate the chroot before building'
+    echo '    -c [default]         Recreate the chroot before building'
     echo '    -s                   Sign packages'
-    echo '    -n                   Run namcap on the package'
+    echo '    -v                   Run namcap on the package'
     echo '    -u                   Update the working copy of the chroot before building'
-    echo '    -C                   Clean pkgbuilds dir'
+    echo '    -w                   Clean pkgbuilds dir'
     echo '    -d                   Skip dep check -- makepkg_arg'
     echo ''
     echo ''
     exit 1
 }
 
-while getopts 'a:b:p:r:csnuhCd' arg; do
+while getopts 'r:a:b:p:csvuwdh' arg; do
     case "${arg}" in
 	a) arch="$OPTARG" ;;
 	b) branch="$OPTARG" ;;
@@ -269,9 +273,9 @@ while getopts 'a:b:p:r:csnuhCd' arg; do
 	r) chroots="$OPTARG" ;;
 	c) clean_first=true ;;
 	s) sign=true ;;
-	n) namcap=true ;;
+	v) namcap=true ;;
 	u) update_first=true ;;
-	C) clean_build=true ;;
+	w) clean_build=true ;;
 	d) nodeps=true ;;
 	*) usage ;;
     esac
@@ -279,40 +283,84 @@ done
 
 shift $((OPTIND-1))
 
+if [ "$arch" == 'multilib' ]; then
+	pacman_conf_arch='multilib'
+	arch='x86_64'
+	branch="${branch}-multilib"
+	base_packages+=(multilib-devel)
+fi
+
+if [[ -f $HOME/.makepkg.conf ]];then
+    . $HOME/.makepkg.conf
+    if [[ -n $PKGDEST ]];then
+	pkgdir=$PKGDEST
+    else
+	mk_pkgdir
+    fi
+else
+    . /etc/makepkg.conf
+    if [[ -n $PKGDEST ]];then
+	pkgdir=$PKGDEST
+    else
+	mk_pkgdir
+    fi
+fi
+
+profiledir=${rundir}/profiles
+
+if ! [[ -d ${profiledir} ]]; then
+    mkdir -p ${profiledir}
+fi
+
+profiles=$(get_profiles)
+
 workdir=${chroots}/${branch}-${arch}
 
+pacman_conf=/usr/share/devtools/pacman-${pacman_conf_arch}.conf
+makepkg_conf=/usr/share/devtools/makepkg-${arch}.conf
+
 if ${namcap};then
-    namcap_arg=-n
+    makechrootpkg_args+=(-n)
 fi
 
 if ${nodeps};then
-    nodeps_arg=-d
+    makepkg_args+=(-d)
 fi
 
+msg "Vars info:"
 msg2 "arch: $arch"
 msg2 "branch: $branch"
+msg2 "profiledir: $profiledir"
+msg2 "profiles: $profiles"
 msg2 "profile: $profile"
 msg2 "chroots: $chroots"
 msg2 "clean_first: $clean_first"
 msg2 "sign: $sign"
 msg2 "namcap: $namcap"
-msg2 "namcap_arg: $namcap_arg"
 msg2 "update_first: $update_first"
-msg2 "namcap_arg: $namcap_arg"
 msg2 "clean_build: $clean_build"
 msg2 "nodeps: $nodeps"
-msg2 "nodeps_arg: $nodeps_arg"
+msg2 "pkgdir: $pkgdir"
+msg2 "base_packages: ${base_packages[*]}"
+msg2 "pacman_conf_arch: ${pacman_conf_arch}"
+msg2 "PKGDEST: $PKGDEST"
+msg2 "rundir: $rundir"
+msg2 "makechrootpkg_args: ${makechrootpkg_args[@]}"
+msg2 "makepkg_args: ${makepkg_args[@]}"
 
 
 if ${clean_build};then
     git_clean
 fi
 
+#msg2 "makechrootpkg ${makechrootpkg_args[@]} -b ${branch} -r ${workdir} -- ${makepkg_args[@]}"
+
 run $@
 
-cp_pkgs ${profile}
+if [[ -z $PKGDEST ]];then
+    cp_pkgs ${profile}
+fi
 
 if ${sign};then
     sign_pkgs
 fi
- 
