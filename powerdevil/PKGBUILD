@@ -1,7 +1,7 @@
 # Contributor: Antonio Rojas
 
 pkgname=powerdevil
-pkgver=5.0.2
+pkgver=5.0.95
 pkgrel=1
 pkgdesc='KDE power management tools'
 arch=('i686' 'x86_64')
@@ -10,8 +10,8 @@ license=('LGPL')
 depends=('plasma-workspace')
 makedepends=('extra-cmake-modules' 'kdoctools')
 conflicts=('kdebase-workspace')
-source=("http://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
-md5sums=('e59bdb8f8179586d6ee30edee6b49016')
+source=("http://download.kde.org/unstable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
+sha256sums=('aa9adf9f0c38bac1ef79da3a7137b2b85c273b8f9e861bbd46508f84a37f0a3f')
 
 prepare() {
   mkdir -p build

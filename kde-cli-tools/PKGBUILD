@@ -1,7 +1,7 @@
 # Contributor: Antonio Rojas
 
 pkgname=kde-cli-tools
-pkgver=5.0.2
+pkgver=5.0.95
 pkgrel=1
 pkgdesc="Tools based on KDE Frameworks 5 to better interact with the system"
 arch=('i686' 'x86_64')
@@ -9,8 +9,8 @@ url='https://projects.kde.org/projects/kde/workspace/kde-cli-tools'
 license=('LGPL')
 depends=('kdesu' 'kdelibs4support' 'kcmutils')
 makedepends=('extra-cmake-modules' 'kdoctools')
-source=("http://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
-md5sums=('9e82f575035670fca42078525a2eccfd')
+source=("http://download.kde.org/unstable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
+sha256sums=('2569d065ea84db224ae0dd1f5c8993728aa40e4ff57feecfa0bc175bb5014a56')
 
 prepare() {
   mkdir -p build

@@ -3,17 +3,16 @@
 # Contributor: TimothÃ©e Ravier <tim@siosm.fr>
 
 pkgname=libmm-qt5
-pkgver=5.0.93
-_plasmaver=5.0.2
+pkgver=5.0.95
 pkgrel=2
 pkgdesc='Qt-only wrapper for ModemManager DBus API'
 arch=('i686' 'x86_64')
-url='https://projects.kde.org/projects/extragear/libs/libnm-qt'
+url='https://projects.kde.org/projects/extragear/libs/libmm-qt'
 license=('LGPL')
 depends=('modemmanager' 'qt5-base')
 makedepends=('extra-cmake-modules')
-source=("http://download.kde.org/stable/plasma/$_plasmaver/libmm-qt-$pkgver.tar.xz")
-md5sums=('be1dc4ba05313dd043e8436ee7628811')
+source=("http://download.kde.org/unstable/plasma/$pkgver/libmm-qt-$pkgver.tar.xz")
+sha256sums=('4760a1d33fa963ceacf895898a33e207200826c94993fec47be45a0422a894f3')
 
 prepare() {
   mkdir -p build

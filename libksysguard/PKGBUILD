@@ -1,7 +1,7 @@
 # Contributor: Antonio Rojas
 
 pkgname=libksysguard
-pkgver=5.0.2
+pkgver=5.0.95
 pkgrel=1
 pkgdesc='Libksysguard'
 arch=('i686' 'x86_64')
@@ -10,8 +10,8 @@ license=('LGPL')
 depends=('libxres' 'kdelibs4support' 'plasma-framework')
 makedepends=('extra-cmake-modules' 'kdoctools')
 conflicts=('kdebase-workspace')
-source=("http://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
-md5sums=('73ce6d1a9c9ed0d77a580514ed696251')
+source=("http://download.kde.org/unstable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
+sha256sums=('b166743171cd32224265ba513dcb55be3fa8e363fbf421d6c93ee54f4ec52394')
 
 prepare() {
   mkdir -p build

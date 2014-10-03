@@ -1,7 +1,7 @@
 # Contributor: Antonio Rojas
 
 pkgname=systemsettings
-pkgver=5.0.2
+pkgver=5.0.95
 pkgrel=1
 pkgdesc='KDE system settings'
 arch=('i686' 'x86_64')
@@ -10,8 +10,8 @@ license=('LGPL')
 depends=('kcmutils' 'khtml' 'kdelibs4support')
 makedepends=('extra-cmake-modules' 'kdoctools')
 conflicts=('kdebase-workspace')
-source=("http://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
-md5sums=('fb9f8190df2053782f427d5c6413726f')
+source=("http://download.kde.org/unstable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
+sha256sums=('8ee147b647da4bb80413d397fda5ce54bf3e2eef78a3822f6ec13ee0c1b37909')
 
 prepare() {
   mkdir -p build

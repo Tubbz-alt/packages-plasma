@@ -1,7 +1,7 @@
 # Maintainer: Andrea Scarpino <andrea@archlinux.org>
 
 pkgname=plasma-nm
-pkgver=5.0.2
+pkgver=5.0.95
 pkgrel=1
 pkgdesc='Plasma applet written in QML for managing network connections'
 arch=('i686' 'x86_64')
@@ -10,8 +10,8 @@ license=('GPL2')
 depends=('plasma-workspace' 'libmm-qt5' 'libnm-qt5')
 makedepends=('extra-cmake-modules' 'kdoctools' 'openconnect')
 optdepends=('mobile-broadband-provider-info: Database of mobile broadband service providers' 'openconnect: Cisco AnyConnect VPN plugin')
-source=("http://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
-md5sums=('74d1f711b38d9fda0ca719bf428b2e56')
+source=("http://download.kde.org/unstable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
+sha256sums=('55b7371ec22319d037737b1dd58dfa5e645b813b556e853fdbfdfaaf382c798c')
 
 prepare() {
   mkdir -p build

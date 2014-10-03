@@ -1,7 +1,7 @@
 # Contributor: Antonio Rojas
 
 pkgname=kio-extras
-pkgver=5.0.2
+pkgver=5.0.95
 pkgrel=1
 pkgdesc="Additional components to increase the functionality of KIO"
 arch=('i686' 'x86_64')
@@ -9,8 +9,8 @@ url='https://projects.kde.org/projects/kde/workspace/kio-extras'
 license=('LGPL')
 depends=('kdelibs4support' 'khtml' 'kdnssd' 'libssh' 'smbclient' 'exiv2' 'openexr')
 makedepends=('extra-cmake-modules' 'openslp' 'kdoctools')
-source=("http://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
-md5sums=('cb02e13fb8a09d55a406f26eb67e32cd')
+source=("http://download.kde.org/unstable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
+sha256sums=('4861f267db311920b13c4421e22cea571a8735d69e513249101589f7ac6ec895')
 
 prepare() {
   mkdir -p build

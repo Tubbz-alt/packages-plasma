@@ -1,7 +1,7 @@
 # Contributor: Antonio Rojas
 
 pkgname=plasma-desktop
-pkgver=5.0.2
+pkgver=5.0.95
 pkgrel=1
 pkgdesc='KDE Plasma Desktop'
 arch=('i686' 'x86_64')
@@ -12,8 +12,8 @@ depends=('kemoticons' 'kitemmodels' 'qt5-graphicaleffects' 'libxkbfile' 'libusb-
 makedepends=('extra-cmake-modules' 'kdoctools')
 optdepends=('plasma-nm: Network manager applet')
 conflicts=('kdebase-workspace' 'kdebase-kdepasswd<5')
-source=("http://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
-md5sums=('79047f0ae75df09ffa6cec13772b7ba8')
+source=("http://download.kde.org/unstable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
+sha256sums=('ebc7def114d9ce0dbccd2d7dae1eb13a482134f116909d5cab8839f89448e913')
 
 prepare() {
   mkdir -p build

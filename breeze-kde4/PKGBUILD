@@ -10,7 +10,7 @@ license=('LGPL')
 depends=('kdelibs')
 makedepends=('extra-cmake-modules' 'automoc4' 'ki18n')
 source=("http://download.kde.org/unstable/plasma/$pkgver/breeze-$pkgver.tar.xz")
-md5sums=('aa1c8f457671daa7d21a97d64a11486d')
+sha256sums=('a3df7b76cdc9901619a625a19a4f629889d625411eed84ad77ce8d5eaf203c24')
 
 prepare() {
   mkdir -p build

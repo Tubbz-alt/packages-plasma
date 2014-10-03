@@ -1,7 +1,7 @@
 # Contributor: Antonio Rojas
 
 pkgname=kinfocenter
-pkgver=5.0.2
+pkgver=5.0.95
 pkgrel=1
 pkgdesc='KInfocenter'
 arch=('i686' 'x86_64')
@@ -10,8 +10,8 @@ license=('LGPL')
 depends=('kdelibs4support' 'kcmutils' 'plasma-framework' 'pciutils' 'glu' 'libraw1394')
 makedepends=('extra-cmake-modules' 'kdoctools')
 conflicts=('kdebase-workspace')
-source=("http://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
-md5sums=('a9ded6f832ddd5adc5fe7eacf2b32655')
+source=("http://download.kde.org/unstable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
+sha256sums=('59baaf31ceab9e485539cc3fd0e564160789f1a49492cad278bffb4e915865ec')
 
 prepare() {
   mkdir -p build

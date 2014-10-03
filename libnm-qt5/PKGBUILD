@@ -3,8 +3,7 @@
 # Contributor: TimothÃ©e Ravier <tim@siosm.fr>
 
 pkgname=libnm-qt5
-pkgver=5.0.93
-_plasmaver=5.0.2
+pkgver=5.0.95
 pkgrel=2
 pkgdesc='Qt-only wrapper for NetworkManager DBus API'
 arch=('i686' 'x86_64')
@@ -12,8 +11,8 @@ url='https://projects.kde.org/projects/extragear/libs/libnm-qt'
 license=('LGPL')
 depends=('networkmanager' 'qt5-base')
 makedepends=('extra-cmake-modules')
-source=("http://download.kde.org/stable/plasma/$_plasmaver/libnm-qt-$pkgver.tar.xz")
-md5sums=('0079a9adc811ffbaacb9731b9e3646e4')
+source=("http://download.kde.org/unstable/plasma/$pkgver/libnm-qt-$pkgver.tar.xz")
+sha256sums=('5fc43235de875b7ede100965615882547182c585afa10749145ab70da15c28ab')
 
 prepare() {
   mkdir -p build

@@ -1,7 +1,7 @@
 # Contributor: Antonio Rojas
 
 pkgname=milou
-pkgver=5.0.2
+pkgver=5.0.95
 pkgrel=1
 pkgdesc="A dedicated search application built on top of Baloo"
 arch=('i686' 'x86_64')
@@ -12,8 +12,8 @@ provides=('milou-frameworks')
 conflicts=('milou-frameworks')
 replaces=('milou-frameworks')
 makedepends=('extra-cmake-modules' 'kdoctools')
-source=("http://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
-md5sums=('2574439c58b5dfb484ad2327f01a2bcf')
+source=("http://download.kde.org/unstable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
+sha256sums=('42eeee0e528d8c943d0335c704da5c113a4c8dd4ed28690aa0a684ee9bbbf3a8')
 
 prepare() {
   mkdir -p build

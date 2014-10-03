@@ -2,7 +2,7 @@
 # Contributor: Andrea Scarpino <andrea@archlinux.org>
 
 pkgname=baloo-frameworks
-pkgver=5.0.2
+pkgver=5.0.95
 pkgrel=2
 pkgdesc="A framework for searching and managing metadata"
 arch=('i686' 'x86_64')
@@ -13,8 +13,8 @@ makedepends=('extra-cmake-modules' 'kdoctools')
 conflicts=('baloo4' 'kf5-baloo')
 provides=('baloo' 'kf5-baloo')
 replaces=('kf5-baloo')
-source=("http://download.kde.org/stable/plasma/$pkgver/baloo-$pkgver.tar.xz")
-md5sums=('58822e05e04f7f01da63f7ba05e9e3be')
+source=("http://download.kde.org/unstable/plasma/$pkgver/baloo-$pkgver.tar.xz")
+sha256sums=('93e02507c5653d23809d62d21210ec0ae35fb651b375eac7acaea62aa8d89504')
 
 prepare() {
   mkdir -p build

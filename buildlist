@@ -1,3 +1,4 @@
+kfilemetadata5
 baloo-frameworks
 breeze
 kde-cli-tools
@@ -19,3 +20,9 @@ plasma-desktop
 libmm-qt5
 libnm-qt5
 plasma-nm
+breeze-kde4
+oxygen-kde4
+kwayland
+kdeplasma5-addons
+kwin
+oxygen

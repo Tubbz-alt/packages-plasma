@@ -1,7 +1,7 @@
 # Contributor: Antonio Rojas
 
 pkgname=khelpcenter
-pkgver=5.0.2
+pkgver=5.0.95
 pkgrel=1
 pkgdesc="Application to show KDE Applications' documentation"
 arch=('i686' 'x86_64')
@@ -10,8 +10,8 @@ license=('LGPL')
 depends=('khtml' 'kdelibs4support' 'kcmutils')
 makedepends=('extra-cmake-modules' 'kdoctools')
 conflicts=('kdebase-runtime')
-source=("http://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
-md5sums=('8198645759b143d1843490d9908677eb')
+source=("http://download.kde.org/unstable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
+sha256sums=('3bdfc4ed1824f3e1b248f1a51fa7ba6d1e1610062bb495d5f110ce8004b14d5f')
 
 prepare() {
   mkdir -p build

@@ -1,7 +1,7 @@
 # Contributor: Antonio Rojas
 
 pkgname=kwrited
-pkgver=5.0.2
+pkgver=5.0.95
 pkgrel=1
 pkgdesc='Kwrited'
 arch=('i686' 'x86_64')
@@ -9,8 +9,8 @@ url='https://projects.kde.org/projects/kde/workspace/kwrited'
 license=('LGPL')
 depends=('kpty' 'kdelibs4support')
 makedepends=('extra-cmake-modules' 'kdoctools')
-source=("http://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
-md5sums=('c9059d42e46c2db543506f9b50953e49')
+source=("http://download.kde.org/unstable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
+sha256sums=('b24ad92ecccdc1a788224226d6a01aa9cfdf1864013c217f98548f0df75223b6')
 
 prepare() {
   mkdir -p build

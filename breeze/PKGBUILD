@@ -1,18 +1,18 @@
 # Contributor: Antonio Rojas
 
 pkgname=breeze
-pkgver=5.0.2
+pkgver=5.0.95
 pkgrel=1
 pkgdesc='Artwork, styles and assets for the Breeze visual style for the Plasma Desktop'
 arch=('i686' 'x86_64')
 url='https://projects.kde.org/projects/kde/workspace/breeze'
 license=('LGPL')
-depends=('kcoreaddons' 'kconfig')
+depends=('kcoreaddons' 'kconfig' 'frameworkintegration')
 makedepends=('extra-cmake-modules')
 optdepends=('qtcurve-qt5: Breeze widget style' 'qtcurve-kde4: Breeze widget style for KDE4 applications' 
 'oxygen-icons: fallback icon theme')
-source=("http://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
-md5sums=('1622a30e22816981c1d6f3b449441696')
+source=("http://download.kde.org/unstable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
+sha256sums=('a3df7b76cdc9901619a625a19a4f629889d625411eed84ad77ce8d5eaf203c24')
 
 prepare() {
   mkdir -p build

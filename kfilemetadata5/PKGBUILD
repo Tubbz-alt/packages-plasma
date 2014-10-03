@@ -1,0 +1,36 @@
+# $Id$
+# Maintainer: Andrea Scarpino <andrea@archlinux.org>
+
+pkgname=kfilemetadata5
+pkgver=5.0.95
+pkgrel=2
+pkgdesc="A library for extracting file metadata"
+arch=('i686' 'x86_64')
+url='https://projects.kde.org/projects/kde/kdelibs/kfilemetadata'
+license=('LGPL')
+depends=('kservice' 'karchive' 'exiv2' 'poppler-qt5' 'taglib' 'ffmpeg' 'ebook-tools')
+makedepends=('extra-cmake-modules' 'python2')
+conflicts=('kfilemetadata-frameworks')
+replaces=('kfilemetadata-frameworks')
+source=("http://download.kde.org/unstable/plasma/$pkgver/kfilemetadata-$pkgver.tar.xz")
+sha256sums=('7043f916bc5039730a9fb5bc1eb0e40293243f7298393ae91c6774302489f592')
+
+prepare() {
+  mkdir -p build
+}
+
+build() {
+  cd build
+  cmake ../kfilemetadata-$pkgver \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DLIB_INSTALL_DIR=lib \
+    -DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
+    -DBUILD_TESTING=OFF
+  make
+}
+
+package() {
+  cd build
+  make DESTDIR="${pkgdir}" install
+}

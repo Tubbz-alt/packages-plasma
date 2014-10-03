@@ -2,7 +2,7 @@
 # Contributor: Alexey D. <lq07829icatm at rambler.ru>
 
 pkgname=plasma-workspace
-pkgver=5.0.2
+pkgver=5.0.95
 pkgrel=1
 pkgdesc='KDE Plasma Workspace'
 arch=('i686' 'x86_64')
@@ -13,8 +13,8 @@ depends=('qt5-tools' 'kded' 'kwin' 'libksysguard' 'kjsembed' 'knotifyconfig' 'kt
 makedepends=('extra-cmake-modules' 'kdoctools')
 optdepends=('plasma-workspace-wallpapers: additional wallpapers')
 conflicts=('kdebase-workspace')
-source=("http://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
-md5sums=('6455e308abf8755d58235df0d64285f7')
+source=("http://download.kde.org/unstable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
+sha256sums=('c7c5a39e985828647c1398099df0b155572c34a0472d6a351d5e66a06bc8306d')
 
 prepare() {
   mkdir -p build

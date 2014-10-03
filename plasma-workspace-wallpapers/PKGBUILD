@@ -1,7 +1,7 @@
 # Contributor: Antonio Rojas
 
 pkgname=plasma-workspace-wallpapers
-pkgver=5.0.2
+pkgver=5.0.95
 pkgrel=1
 pkgdesc='Additional wallpapers for the Plasma Workspace'
 arch=('any')
@@ -9,8 +9,8 @@ url='https://projects.kde.org/projects/kde/workspace/plasma-workspace'
 license=('LGPL')
 depends=()
 makedepends=('extra-cmake-modules')
-source=("http://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
-md5sums=('d2bf62aa2112db426666d085002f7f05')
+source=("http://download.kde.org/unstable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
+sha256sums=('4069bcf76c33ee6d62142cfd8ea4401f86fee37c4c61a62f452eb1cdf3f1cfb3')
 
 prepare() {
   mkdir -p build

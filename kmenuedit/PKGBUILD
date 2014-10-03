@@ -1,7 +1,7 @@
 # Contributor: Antonio Rojas
 
 pkgname=kmenuedit
-pkgver=5.0.2
+pkgver=5.0.95
 pkgrel=1
 pkgdesc='KDE menu editor'
 arch=('i686' 'x86_64')
@@ -10,8 +10,8 @@ license=('LGPL')
 depends=('khotkeys')
 makedepends=('extra-cmake-modules' 'kdoctools')
 conflicts=('kdebase-workspace')
-source=("http://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
-md5sums=('ddfb950816e3e51f2358a32a36986b6c')
+source=("http://download.kde.org/unstable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
+sha256sums=('78c5c4c7291844437635d087f72e1fbbd2390b28ea4c6d45c5973d6c6f1ee1dc')
 
 prepare() {
   mkdir -p build
