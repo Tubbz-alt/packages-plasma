@@ -1,8 +1,9 @@
+# Maintainer : Philip Müller <philm@manjaro.org>
 # Contributor: Andrea Scarpino <andrea@archlinux.org>
 
 pkgname=baloo-frameworks
 pkgver=5.0.2
-pkgrel=1
+pkgrel=2
 pkgdesc="A framework for searching and managing metadata"
 arch=('i686' 'x86_64')
 url='https://projects.kde.org/projects/kde/kdelibs/baloo'
@@ -10,7 +11,8 @@ license=('LGPL')
 depends=('xapian-core' 'kfilemetadata5' 'kidletime' 'kcmutils' 'kdelibs4support')
 makedepends=('extra-cmake-modules' 'kdoctools')
 conflicts=('baloo4' 'kf5-baloo')
-provides=('baloo')
+provides=('baloo' 'kf5-baloo')
+replaces=('kf5-baloo')
 source=("http://download.kde.org/stable/plasma/$pkgver/baloo-$pkgver.tar.xz")
 md5sums=('58822e05e04f7f01da63f7ba05e9e3be')
 

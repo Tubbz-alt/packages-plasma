@@ -1,15 +1,18 @@
+# Maintainer : Philip Müller <philm@manjaro.org>
 # Contributor: Antonio Rojas
 
 pkgname=libkscreen-frameworks
 pkgver=5.0.93
 plasmaver=5.0.2
-pkgrel=2
+pkgrel=3
 pkgdesc='KDE screen management software'
 arch=('i686' 'x86_64')
 url='https://projects.kde.org/projects/extragear/libs/libkscreen'
 license=('LGPL')
 depends=('qt5-x11extras' 'libxrandr')
 conflicts=('libkscreen2')
+provides=('libkscreen2')
+replaces=('libkscreen2')
 makedepends=('extra-cmake-modules')
 source=("http://download.kde.org/stable/plasma/$plasmaver/libkscreen-$pkgver.tar.xz")
 md5sums=('3b504e4be29b8a9739be91f19c44c9e7')
