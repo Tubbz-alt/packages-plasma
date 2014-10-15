@@ -3,6 +3,7 @@ breeze
 kde-cli-tools
 khelpcenter (conflicts kdebase-runtime)
 kinfocenter (depends kwayland)
+kio-extras
 kwrited
 libkscreen-frameworks
 libksysguard
@@ -18,8 +19,7 @@ ksysguard (depends libksysguard)
 plasma-workspace (depends libksysguard, kde-cli-tools, kio-extras, milou, baloo-frameworks, libkscreen-frameworks, breeze)
 kdeplasma5-addons (depends plasma-workspace)
 khotkeys (depends plasma-workspace)
-kio-extras (depends khotkeys)
-kmenuedit (depends khotkeys)
 plasma-nm (depends plasma-workspace libmm-qt5 libnm-qt5)
 powerdevil (plasma-workspace)
+kmenuedit (depends khotkeys)
 plasma-desktop (depends systemsettings, ksysguard, powerdevil, oxygen, kmenuedit, kinfocenter, polkit-kde-frameworks)

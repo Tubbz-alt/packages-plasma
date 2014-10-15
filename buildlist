@@ -3,6 +3,7 @@ breeze
 kde-cli-tools
 khelpcenter
 kinfocenter
+kio-extras
 kwrited
 libkscreen-frameworks
 libksysguard
@@ -18,8 +19,7 @@ ksysguard
 plasma-workspace
 kdeplasma5-addons
 khotkeys
-kio-extras
-kmenuedit
 plasma-nm
 powerdevil
+kmenuedit
 plasma-desktop
