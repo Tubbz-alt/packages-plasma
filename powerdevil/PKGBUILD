@@ -1,17 +1,17 @@
 # Contributor: Antonio Rojas
 
 pkgname=powerdevil
-pkgver=5.0.95
+pkgver=5.1.0.1
 pkgrel=1
 pkgdesc='KDE power management tools'
 arch=('i686' 'x86_64')
 url='https://projects.kde.org/projects/extragear/base/powerdevil'
 license=('LGPL')
 depends=('plasma-workspace')
-makedepends=('extra-cmake-modules' 'kdoctools')
+makedepends=('extra-cmake-modules' 'kdoctools' 'python')
 conflicts=('kdebase-workspace')
-source=("http://download.kde.org/unstable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
-sha256sums=('aa9adf9f0c38bac1ef79da3a7137b2b85c273b8f9e861bbd46508f84a37f0a3f')
+source=("http://download.kde.org/stable/plasma/5.1.0/$pkgname-$pkgver.tar.xz")
+md5sums=('4d0d05084c1f198089dfb25325b35d1f')
 
 prepare() {
   mkdir -p build
@@ -19,12 +19,11 @@ prepare() {
 
 build() {
   cd build
-  cmake ../$pkgname-$pkgver \
+  cmake ../$pkgname-5.1.0 \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DLIB_INSTALL_DIR=lib \
     -DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
-    -DLOCALE_INSTALL_DIR=share/locale/kf5 \
     -DSYSCONF_INSTALL_DIR=/etc
   make
 }
