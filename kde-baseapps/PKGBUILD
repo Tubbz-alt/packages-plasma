@@ -5,29 +5,27 @@
 pkgbase=kde-baseapps
 pkgname=(kf5-dolphin kf5-kdepasswd kf5-kdialog kf5-kfind kf5-libkonq)
 pkgver=5.0.1
-pkgrel=1
-_git=71ff942a5bf0bbceba34188ad542829df514f218
+pkgrel=2
 pkgdesc="Collection of applications used for file and Internet browsing."
 arch=('i686' 'x86_64')
 url='https://projects.kde.org/projects/kde/applications/kde-baseapps'
 license=('LGPL')
-makedepends=('extra-cmake-modules' 'git' 'kdoctools' 'kdesu' 'kdelibs4support' 'kactivities-frameworks' 'kf5-baloo-widgets' 'knewstuff' 'kio-extras')
-source=('git://anongit.kde.org/kde-baseapps#branch=frameworks')
+makedepends=('extra-cmake-modules' 'git' 'kdoctools' 'kdesu' 'kdelibs4support' 'kactivities-frameworks' 'knewstuff' 'kio-extras' 'kf5-baloo-widgets')
+source=("$pkgbase::git://anongit.kde.org/kde-baseapps#branch=frameworks")
 md5sums=('SKIP')
 
 prepare() {
-  mkdir -p build
-  cd $srcdir/kde-baseapps
-  git checkout $_git
+    mkdir -p build
 }
 
 build() {
   cd build
-  cmake ../kde-baseapps \
+  cmake ../$pkgbase \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DLIB_INSTALL_DIR=lib \
-    -DQT_PLUGIN_INSTALL_DIR=lib/qt/plugins
+    -DSYSCONF_INSTALL_DIR=/etc \
+    -DKDE_INSTALL_USE_QT_SYS_PATHS=ON
   make
 }
 

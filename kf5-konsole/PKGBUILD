@@ -2,9 +2,11 @@
 # Contributor: Alexey D. <lq07829icatm at rambler.ru>
 # Contributor: Andrea Scarpino <andrea@archlinux.org>
 
+_pkgname=konsole
+
 pkgname=kf5-konsole
 pkgver=5.0.1
-pkgrel=1
+pkgrel=2
 pkgdesc="KDE's terminal emulator"
 arch=('i686' 'x86_64')
 url='https://projects.kde.org/projects/kde/applications/konsole'
@@ -12,7 +14,7 @@ license=('LGPL')
 depends=('kdelibs4support' 'knotifyconfig' 'kpty')
 makedepends=('extra-cmake-modules' 'git' 'kdoctools')
 conflicts=('kdebase-konsole')
-source=('git://anongit.kde.org/konsole.git#branch=frameworks')
+source=("$_pkgname::git://anongit.kde.org/konsole.git")
 md5sums=('SKIP')
 
 prepare() {
@@ -26,7 +28,7 @@ build() {
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DLIB_INSTALL_DIR=lib \
     -DBUILD_TESTING=OFF \
-    -DQT_PLUGIN_INSTALL_DIR=lib/qt/plugins
+    -DKDE_INSTALL_USE_QT_SYS_PATHS=ON
   make
 }
 

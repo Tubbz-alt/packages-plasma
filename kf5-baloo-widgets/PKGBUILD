@@ -3,27 +3,31 @@
 pkgname=kf5-baloo-widgets
 _pkgname=baloo-widgets
 pkgver=5.0.1
-pkgrel=1
+pkgrel=2
 pkgdesc="Widgets for the baloo framework for searching and managing metadata"
 arch=('i686' 'x86_64')
 url='https://projects.kde.org/projects/kde/kdelibs/baloo'
 license=('LGPL')
-depends=('kf5-baloo' 'kdelibs4support' 'kemoticons')
+depends=('baloo-frameworks' 'kdelibs4support' 'kemoticons')
 makedepends=('extra-cmake-modules' 'kdoctools' 'git')
-conflicts=('baloo-widgets')
+conflicts=('baloo4-widgets')
 #source=("http://download.kde.org/unstable/plasma/$pkgver/src/${_pkgname}-$pkgver.tar.xz")
-source=('git://anongit.kde.org/baloo-widgets#branch=frameworks')
+source=("${_pkgname}::git://anongit.kde.org/baloo-widgets")
 md5sums=('SKIP')
 
+prepare(){
+    mkdir -p build
+}
+
 build() {
-  mkdir -p build
   cd build
   
   cmake ../${_pkgname} \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DSYSCONF_INSTALL_DIR=/etc \
-    -DLIB_INSTALL_DIR=lib
+    -DLIB_INSTALL_DIR=lib \
+    -DKDE_INSTALL_USE_QT_SYS_PATHS=ON
   make
 }
 
