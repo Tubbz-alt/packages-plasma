@@ -2,8 +2,8 @@
 
 pkgname=kf5-baloo-widgets
 _pkgname=baloo-widgets
-pkgver=5.0.1
-pkgrel=2
+pkgver=5.1.0.1
+pkgrel=1
 pkgdesc="Widgets for the baloo framework for searching and managing metadata"
 arch=('i686' 'x86_64')
 url='https://projects.kde.org/projects/kde/kdelibs/baloo'
@@ -12,10 +12,14 @@ depends=('baloo-frameworks' 'kdelibs4support' 'kemoticons')
 makedepends=('extra-cmake-modules' 'kdoctools' 'git')
 conflicts=('baloo4-widgets')
 #source=("http://download.kde.org/unstable/plasma/$pkgver/src/${_pkgname}-$pkgver.tar.xz")
-source=("${_pkgname}::git://anongit.kde.org/baloo-widgets")
-md5sums=('SKIP')
+source=("${_pkgname}::git://anongit.kde.org/baloo-widgets"
+        "filefetch.patch::https://projects.kde.org/projects/kde/kdelibs/baloo-widgets/repository/revisions/990f4b32fc8d717379607431a7e7d7d31df28215/diff.diff")
+md5sums=('SKIP' 'SKIP')
 
 prepare(){
+    cd baloo-widgets
+    patch -Rp1 -i ${srcdir}/filefetch.patch
+    cd ..
     mkdir -p build
 }
 
