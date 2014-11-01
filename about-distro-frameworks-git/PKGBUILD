@@ -1,8 +1,9 @@
 # Maintainer : Philip Müller <philm@manjaro.org>
 
-pkgname=kf5-about-distro
+pkgname=about-distro-frameworks-git
 _pkgname=about-distro
 pkgver=0.0.1
+_pkgver=0.0.1
 pkgrel=2
 pkgdesc="KCM displaying distribution and system information"
 arch=('i686' 'x86_64')
@@ -11,20 +12,26 @@ license=('GPL3')
 depends=('kconfigwidgets' 'solid')
 makedepends=('extra-cmake-modules' 'kdoctools' 'git')
 #source=("http://download.kde.org/stable/$pkgname/$pkgver/src/$pkgname-$pkgver.tar.xz"
-source=("${_pkgname}::git://anongit.kde.org/about-distro.git#branch=frameworks")
+source=("${_pkgname}::git://anongit.kde.org/${_pkgname}.git#branch=frameworks")
 md5sums=('SKIP')
+
+pkgver() {
+  cd ${_pkgname}
+  printf "${_pkgver}.r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 build() {
   mkdir -p build
   cd build
 
-  cmake ../${_pkgname} \
+  cmake ../${_pkgname} \    
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DLIB_INSTALL_DIR=lib \
+    -DLIBEXEC_INSTALL_DIR=lib \
     -DSYSCONF_INSTALL_DIR=/etc \
-    -DQML_INSTALL_DIR=/usr/lib/qt5/qml \
     -DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
+    -DQML_INSTALL_DIR=/usr/lib/qt5/qml \
     -DBUILD_TESTING=OFF
   make
 }

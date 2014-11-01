@@ -1,40 +1,42 @@
 # Maintainer : Philip Müller <philm@manjaro.org>
 
 pkgname=kate
-#pkgver=${_kdever}
 pkgver=4.98.0
-pkgrel=2
+_pkgver=4.98.0
+pkgrel=3
 pkgdesc='Advanced editor component which is used in numerous KDE applications requiring a text editing component'
 arch=('i686' 'x86_64')
 url='https://projects.kde.org/projects/kde/applications/kate'
 license=('LGPL')
-depends=('kdelibs4support' 'kconfig' 'kguiaddons' 'ki18n' 'kinit' 'kjobwidgets' 'kitemmodels'
-         'kio' 'kparts' 'ktexteditor' 'kwindowsystem' 'kxmlgui' 'knewstuff')
-makedepends=('extra-cmake-modules' 'kdoctools' 'git')
+depends=('libgit2' 'kdelibs4support' 'kinit' 'knewstuff' 'ktexteditor' 'plasma-framework')
+makedepends=('extra-cmake-modules' 'kdoctools' 'git' 'python')
 conflicts=('kdesdk-kate')
 source=("${pkgname}::git://anongit.kde.org/kate")
 md5sums=('SKIP')
 
+pkgver() {
+  cd kate
+  printf "${_pkgver}.r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 prepare(){
-    mkdir -p build
+  mkdir -p build
 }
 
 build() {
   cd build
-
   cmake ../${pkgname} \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DSYSCONF_INSTALL_DIR=/etc \
     -DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
-    -DLIB_INSTALL_DIR=lib
+    -DLIB_INSTALL_DIR=lib \
+    -DQT_PLUGIN_INSTALL_DIR=lib/qt/plugins
   make
 }
 
 package() {
   cd build
-
   make DESTDIR="${pkgdir}" install
 }
 

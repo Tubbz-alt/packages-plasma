@@ -1,0 +1,43 @@
+# Maintainer: Antonio Rojas
+# Contributor: Andrea Scarpino <andrea@archlinux.org>
+# Contributor: Pierre Schmitz <pierre@archlinux.de>
+
+pkgname=kdepimlibs
+pkgver=4.98.0.3
+_pkgver=4.98.0.3
+pkgrel=2
+pkgdesc="KDE PIM Libraries"
+arch=('i686' 'x86_64')
+url='https://projects.kde.org/projects/kde/kdepimlibs'
+license=('GPL' 'LGPL')
+depends=('gpgme' 'akonadi' 'libical' 'kdelibs4support' 'kidletime') # prison-qt5
+makedepends=('extra-cmake-modules' 'cyrus-sasl' 'git' 'kdoctools' 'python')
+provides=('kabc-git' 'kf5-kdepimlibs')
+replaces=('kf5-kdepimlibs')
+source=('git://anongit.kde.org/kdepimlibs.git')
+md5sums=('SKIP')
+
+pkgver() {
+  cd kdepimlibs
+  printf "${_pkgver}.r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+  mkdir -p build
+}
+
+build() {
+  cd build
+  cmake ../kdepimlibs \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR=lib \
+    -DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
+    -DBUILD_TESTS=OFF
+  make
+}
+
+package() {
+  cd build
+  make DESTDIR="${pkgdir}" install
+}

@@ -1,0 +1,40 @@
+# Maintainer : Philip Müller <philm@manjaro.org>
+
+pkgname=libbluedevil-frameworks
+_pkgname=libbluedevil
+pkgver=2.0rc1
+_pkgver=2.0rc1
+pkgrel=2
+pkgdesc='KDE bluetooth framework libraries'
+arch=('i686' 'x86_64')
+url="https://projects.kde.org/projects/playground/libs/libbluedevil"
+license=('GPL2')
+depends=('qt5-base')
+makedepends=('extra-cmake-modules' 'git')
+conflicts=('kf5-libbluedevil' 'libbluedevil')
+replaces=('kf5-libbluedevil')
+source=("git://anongit.kde.org/libbluedevil.git#branch=frameworks")
+md5sums=('SKIP')
+
+pkgver() {
+  cd libbluedevil
+  printf "${_pkgver}.r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+  mkdir -p build
+}
+
+build() {
+  cd build
+  cmake ../libbluedevil \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DLIB_INSTALL_DIR=lib
+  make
+}
+
+package() {
+  cd build
+  make DESTDIR="${pkgdir}" install
+}

@@ -1,26 +1,32 @@
-# Maintainer : Philip Müller <philm@manjaro.org>
-# Contributor: Antonio Rojas
+# Maintainer: Antonio Rojas
 # Contributor: Andrea Scarpino <andrea@archlinux.org>
 
 pkgbase=kde-baseapps
-pkgname=(kf5-dolphin kf5-kdepasswd kf5-kdialog kf5-kfind kf5-libkonq)
-pkgver=5.0.1
+pkgname=('dolphin-frameworks' 'konqueror-frameworks' 'kdepasswd-frameworks' 'kdialog-frameworks' 'kfind-frameworks' 
+'keditbookmarks-frameworks' 'libkonq-frameworks')
+pkgver=r19463.056ca25
+_pkgver=5.0.1
 pkgrel=2
 pkgdesc="Collection of applications used for file and Internet browsing."
 arch=('i686' 'x86_64')
 url='https://projects.kde.org/projects/kde/applications/kde-baseapps'
 license=('LGPL')
-makedepends=('extra-cmake-modules' 'git' 'kdoctools' 'kdesu' 'kdelibs4support' 'kactivities-frameworks' 'knewstuff' 'kio-extras' 'kf5-baloo-widgets')
-source=("$pkgbase::git://anongit.kde.org/kde-baseapps#branch=frameworks")
+makedepends=('extra-cmake-modules' 'kdoctools' 'kdesu' 'kdelibs4support' 'kactivities-frameworks' 'knewstuff' 'baloo-widgets' 'python')
+source=('git://anongit.kde.org/kde-baseapps#branch=frameworks')
 md5sums=('SKIP')
 
+pkgver() {
+  cd kde-baseapps
+  printf "${_pkgver}.r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
 prepare() {
-    mkdir -p build
+  mkdir -p build
 }
 
 build() {
   cd build
-  cmake ../$pkgbase \
+  cmake ../kde-baseapps \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DLIB_INSTALL_DIR=lib \
@@ -29,44 +35,77 @@ build() {
   make
 }
 
-package_kf5-dolphin() {
+package_dolphin-frameworks() {
 	pkgdesc='File Manager'
-	depends=('kf5-baloo-widgets' 'kf5-libkonq' 'knewstuff' 'kio-extras')
-	conflicts=('kdebase-dolphin')
+	depends=('baloo-widgets-git' 'libkonq-frameworks' 'knewstuff' 'kio-extras' 'kcmutils')
 	url="http://kde.org/applications/system/dolphin/"
+	conflicts=('kdebase-dolphin' 'dolphin' 'kf5-dolphin')
+	replaces=('kf5-dolphin')
+	provides=('dolphin')
+	install=$pkgbase.install
 	cd $srcdir/build/dolphin
-	make DESTDIR=$pkgdir install
+	make DESTDIR="$pkgdir" install
 }
 
-package_kf5-kdepasswd() {
+package_konqueror-frameworks() {
+	pkgdesc='KDE File Manager & Web Browser'
+	depends=('keditbookmarks-frameworks' 'dolphin-frameworks' 'kded')
+	url="http://kde.org/applications/system/konqueror/"
+	conflicts=('kdebase-konqueror' 'konqueror')
+	provides=('konqueror')
+	install=$pkgbase.install
+	cd $srcdir/build/konqueror
+	make DESTDIR="$pkgdir" install
+}
+
+package_kdepasswd-frameworks() {
 	pkgdesc='Change Password'
-	depends=('kf5-libkonq' 'kdesu')
-	conflicts=('kdebase-kdepasswd')
+	depends=('libkonq-frameworks-git' 'kdesu')
+        conflicts=('kdebase-kdepasswd' 'kdepasswd' 'kf5-kdepasswd')
+        replaces=('kf5-kdepasswd')
+        provides=('kdepasswd')
 	cd $srcdir/build/kdepasswd
-	make DESTDIR=$pkgdir install
+	make DESTDIR="$pkgdir" install
 }
 
-package_kf5-kdialog() {
+package_kdialog-frameworks() {
 	pkgdesc='A utility for displaying dialog boxes from shell scripts'
 	depends=('kdelibs4support')
-	conflicts=('kdebase-kdialog')
+        conflicts=('kdebase-kdialog' 'kdialog' 'kf5-kdialog')
+        replaces=('kf5-kdialog')
+        provides=('kdialog')
 	cd $srcdir/build/kdialog
-	make DESTDIR=$pkgdir install
+	make DESTDIR="$pkgdir" install
 }
 
-package_kf5-kfind() {
+package_kfind-frameworks() {
 	pkgdesc='Find Files/Folders'
-	depends=('kf5-libkonq')
-	conflicts=('kdebase-kfind')
+	depends=('libkonq-frameworks-git')
+        conflicts=('kdebase-kfind' 'kfind' 'kf5-kfind')
+        replaces=('kf5-kfind')
+        provides=('kfind')
 	url="http://kde.org/applications/utilities/kfind/"
+	install=$pkgbase.install
 	cd $srcdir/build/kfind
-	make DESTDIR=$pkgdir install
+	make DESTDIR="$pkgdir" install
 }
 
-package_kf5-libkonq() {
+package_keditbookmarks-frameworks() {
+        pkgdesc='Bookmark organizer and editor'
+        depends=('libkonq-frameworks-git')
+        conflicts=('kdebase-keditbookmarks' 'keditbookmarks')
+        provides=('keditbookmarks')
+        url="http://www.kde.org/"
+	install=$pkgbase.install
+        cd $srcdir/build/keditbookmarks
+        make DESTDIR="$pkgdir" install
+}
+
+package_libkonq-frameworks() {
 	pkgdesc='KDE libraries for the basic desktop applications'
 	depends=('kdelibs4support')
-        conflicts=('kdebase-lib')
+	conflicts=('kdebase-lib' 'kf5-libkonq')
+	replaces=('kf5-libkonq')
 	cd $srcdir/build/lib
-	make DESTDIR=$pkgdir install
+	make DESTDIR="$pkgdir" install
 }

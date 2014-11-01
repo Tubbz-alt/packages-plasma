@@ -1,23 +1,26 @@
-# Maintainer : Philip Müller <philm@manjaro.org>
+# Maintainer: Gustavo Alvarez <sl1pkn07@gmail.com>
 
-pkgname=kf5-yakuake
-pkgver=2.9.9
-pkgrel=1
+pkgname=yakuake-frameworks-git
+pkgver=2.9.9.37.g1b4e0b6
+_pkgver=2.9.9
+pkgrel=2
 pkgdesc="A is a drop-down terminal emulator based on KDE Konsole technology."
 arch=('i686' 'x86_64')
 url="http://yakuake.kde.org"
 license=('GPL')
-conflicts=('yakuake')
+conflicts=('yakuake' 'kf5-yakuake')
 provides=('yakuake')
-depends=('knotifyconfig' 'kparts' 'knewstuff' 'kf5-konsole')
+replaces=('kf5-yakuake')
+depends=('knotifyconfig' 'kparts' 'knewstuff' 'konsole')
 makedepends=('cmake' 'git' 'extra-cmake-modules')
 source=('git://anongit.kde.org/yakuake.git#branch=frameworks')
 sha1sums=('SKIP')
 _gitname="yakuake"
+install=yakuake-frameworks.install
 
 pkgver() {
   cd "${_gitname}"
-  git describe --long | sed -e 's|-|.|g' | sed -e 's|v||g'
+  printf "${_pkgver}.r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 build() {
@@ -25,7 +28,9 @@ build() {
   cmake . \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
-    -DLIB_INSTALL_DIR=lib
+    -DLIB_INSTALL_DIR=lib \
+    -DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
+    -DSYSCONF_INSTALL_DIR=/etc
   make
 }
 

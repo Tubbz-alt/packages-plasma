@@ -1,0 +1,43 @@
+# Maintainer: Antonio Rojas
+# Contributor: Jerome Leclanche <jerome.leclanche+arch@gmail.com>
+
+pkgname=akonadi
+pkgver=r2760.0386515
+_pkgver=1.13.0
+pkgrel=2.1
+pkgdesc="PIM layer, which provides an asynchronous API to access all kind of PIM data"
+arch=('i686' 'x86_64')
+url="http://www.kde.org"
+license=('LGPL')
+depends=('qt5-base' 'shared-mime-info' 'mariadb')
+makedepends=('git' 'extra-cmake-modules' 'postgresql')
+conflicts=('kf5-akonadi')
+replaces=('kf5-akonadi')
+source=("git://anongit.kde.org/$pkgname")
+install=$pkgname.install
+sha256sums=("SKIP")
+
+pkgver() {
+  cd akonadi
+  printf "$_pkgver.r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+  mkdir -p build
+}
+
+build() {
+  cd build
+  cmake ../$pkgname \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR=lib \
+    -DSYSCONF_INSTALL_DIR=/etc \
+    -DAKONADI_BUILD_TESTS=OFF
+  make
+}
+
+package() {
+  cd build
+  make DESTDIR="$pkgdir" install
+}

@@ -1,21 +1,25 @@
-# Maintainer : Philip Müller <philm@manjaro.org>
-# Contributor: Alexey D. <lq07829icatm at rambler.ru>
+# Maintainer: Alexey D. <lq07829icatm at rambler.ru>
 # Contributor: Andrea Scarpino <andrea@archlinux.org>
 
-_pkgname=konsole
-
-pkgname=kf5-konsole
-pkgver=5.0.1
-pkgrel=2
+pkgname=konsole
+pkgver=5.0.1.5418.c24c0b3
+_pkgver=5.0.1
+pkgrel=3
 pkgdesc="KDE's terminal emulator"
 arch=('i686' 'x86_64')
 url='https://projects.kde.org/projects/kde/applications/konsole'
 license=('LGPL')
 depends=('kdelibs4support' 'knotifyconfig' 'kpty')
-makedepends=('extra-cmake-modules' 'git' 'kdoctools')
-conflicts=('kdebase-konsole')
-source=("$_pkgname::git://anongit.kde.org/konsole.git")
+makedepends=('extra-cmake-modules' 'git' 'kdoctools' 'python')
+conflicts=('kf5-konsole' 'kdebase-konsole')
+replaces=('kf5-konsole')
+source=('git://anongit.kde.org/konsole.git')
 md5sums=('SKIP')
+
+pkgver() {
+  cd konsole
+  printf "${_pkgver}.r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
 
 prepare() {
   mkdir -p build
@@ -28,7 +32,7 @@ build() {
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DLIB_INSTALL_DIR=lib \
     -DBUILD_TESTING=OFF \
-    -DKDE_INSTALL_USE_QT_SYS_PATHS=ON
+    -DQT_PLUGIN_INSTALL_DIR=lib/qt/plugins
   make
 }
 
