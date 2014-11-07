@@ -1,8 +1,7 @@
 # Maintainer: Antonio Rojas 
 
 pkgname=kmix
-pkgver=r1960.817b780
-_pkgver=4.99.0
+pkgver=14.11.80
 pkgrel=1
 pkgdesc='KDE volume control program'
 arch=('i686' 'x86_64')
@@ -11,14 +10,9 @@ license=('GPL')
 depends=('kdelibs4support' 'kcmutils' 'libcanberra')
 makedepends=('extra-cmake-modules' 'git' 'kdoctools' 'python')
 conflicts=('kdemultimedia-kmix')
-source=("git://anongit.kde.org/kmix.git")
+source=("http://download.kde.org/unstable/applications/${pkgver}/src/${pkgname}-${pkgver}.tar.xz")
 install=$pkgname.install
 sha256sums=('SKIP')
-
-pkgver() {
-  cd kmix
-  printf "${_pkgver}.r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
-}
 
 prepare() {
   mkdir -p build
@@ -26,7 +20,7 @@ prepare() {
 
 build() { 
   cd build
-  cmake ../kmix \
+  cmake ../${pkgname}-${pkgver} \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_BUILD_TYPE=Release \
     -DKMIX_KF5_BUILD=ON \

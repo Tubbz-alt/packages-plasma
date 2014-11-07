@@ -1,6 +1,6 @@
 # Maintainer: Gustavo Alvarez <sl1pkn07@gmail.com>
 
-pkgname=yakuake-frameworks-git
+pkgname=yakuake-frameworks
 pkgver=2.9.9.37.g1b4e0b6
 _pkgver=2.9.9
 pkgrel=2

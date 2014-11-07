@@ -1,8 +1,7 @@
 # Maintainer: Gustavo Alvarez <sl1pkn07@gmail.com>
 
 pkgname=libkdcraw-frameworks
-pkgver=r954.b65473c
-_pkgver=14.12beta1
+pkgver=14.11.80
 pkgrel=1
 pkgdesc="A C++ interface used to decode RAW picture."
 url='https://projects.kde.org/projects/kde/kdegraphics/libs/libkdcraw'
@@ -11,21 +10,16 @@ license=('GPL' 'LGPL' 'FDL')
 depends=('kdelibs4support' 'libraw')
 makedepends=('extra-cmake-modules' 'kdoctools' 'git')
 conflicts=('libkdcraw')
-source=("git://anongit.kde.org/libkdcraw#branch=frameworks")
-sha1sums=('SKIP')
-_gitname=libkdcraw
+source=("http://download.kde.org/unstable/applications/${pkgver}/libkdcraw-${pkgver}.tar.xz")
 
-pkgver() {
-  cd "${_gitname}"
-  printf "${pkgver}.r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
-}
+sha1sums=('SKIP')
 
 build() {
   rm -fr build
   mkdir -p build
   cd build
 
-  cmake "../${_gitname}" \
+  cmake "../libkdcraw" \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_BUILD_TYPE=Release \
     -DLIB_INSTALL_DIR=lib \

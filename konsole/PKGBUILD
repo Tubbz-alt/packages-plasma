@@ -2,24 +2,19 @@
 # Contributor: Andrea Scarpino <andrea@archlinux.org>
 
 pkgname=konsole
-pkgver=5.0.1.5418.c24c0b3
-_pkgver=5.0.1
-pkgrel=3
+pkgver=14.11.80
+pkgrel=1
 pkgdesc="KDE's terminal emulator"
 arch=('i686' 'x86_64')
 url='https://projects.kde.org/projects/kde/applications/konsole'
 license=('LGPL')
 depends=('kdelibs4support' 'knotifyconfig' 'kpty')
 makedepends=('extra-cmake-modules' 'git' 'kdoctools' 'python')
+provides=('kdebase-konsole')
 conflicts=('kf5-konsole' 'kdebase-konsole')
 replaces=('kf5-konsole')
-source=('git://anongit.kde.org/konsole.git')
+source=("http://download.kde.org/unstable/applications/${pkgver}/src/${pkgname}-${pkgver}.tar.xz")
 md5sums=('SKIP')
-
-pkgver() {
-  cd konsole
-  printf "${_pkgver}.r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
-}
 
 prepare() {
   mkdir -p build
@@ -27,7 +22,7 @@ prepare() {
 
 build() {
   cd build
-  cmake ../konsole \
+  cmake ../${pkgname}-${pkgver} \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DLIB_INSTALL_DIR=lib \

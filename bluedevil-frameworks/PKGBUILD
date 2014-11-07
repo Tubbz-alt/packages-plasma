@@ -3,7 +3,7 @@
 pkgname=bluedevil-frameworks
 _pkgname=bluedevil
 pkgver=2.0rc1
-_pkgver=2.0-rc1
+_pkgver=2.0rc1
 pkgrel=3
 pkgdesc='KDE bluetooth framework'
 arch=('i686' 'x86_64')
